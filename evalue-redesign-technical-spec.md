@@ -1,6 +1,28 @@
 # eValue.cz — Technical Redesign Specification
-**Version 2.0 · Updated June 2026**
+**Version 2.1 · Updated June 2026**
 *Based on full audit report + iterative prototype sessions (evalue-prototype.html)*
+
+---
+
+## PROTOTYPE vs. PRODUCTION — KEY DISTINCTION
+
+This spec describes **two parallel realities** that must be reconciled before launch:
+
+| Dimension | Prototype (`evalue-prototype.html`) | Production target |
+|-----------|--------------------------------------|-------------------|
+| Language | English throughout (`lang="en"`) | Czech default, English at `/en/`, German `/de/` phase 2 |
+| H1 copy | English marketing headlines | Czech SEO-optimised headlines (see per-page specs) |
+| Client logos | Rohlik, Creditas, Alza, Škoda, KB, GitHub, Metronom | Carvago, Finshape, Košík.cz, Nano Energies, Inventi (real portfolio) |
+| Case study clients | Rohlik Group, Komerční banka, FireAlarm, Škoda, Bonami, etc. | Finshape, Carvago, Košík.cz, Nano Energies, Protank, UPC (real projects) |
+| Case study pattern | Modal overlay (no URL per case) | Individual slug pages `/case-studies/[slug]/` with full 7-section layout |
+| Counter values | 150 projects · 40 engineers · 12 years · 98% NPS | 15+ years · 120+ clients · 2M+ users · 14-day onboarding |
+| Chat implementation | Custom bespoke widget ("Jíťa" avatar, quick replies, Web Audio) | Crisp.chat with live agent + AI fallback (DC-05) |
+| Cal.com | Placeholder div only | Live iframe embed on all service pages |
+| Cost calculator | Not implemented | DC-07 — Nearshore Cost Calculator (Phase 1) |
+| Pricing currency | EUR one-off prices | EUR and CZK (websites tier: 149 CZK/mo) |
+| Blog language | English, 9 articles | Czech, 6 articles at launch (see content plan) |
+
+**Everything documented below reflects the production target unless explicitly marked `[BUILT]` (exists in prototype) or `[PLANNED]` (not yet implemented).**
 
 ---
 
@@ -39,20 +61,21 @@ Top-of-funnel conversion hub. Routes each visitor type into the correct sub-page
 
 ### Content Sections (top → bottom)
 
-| # | Section | Content |
-|---|---------|---------|
-| 1 | **Sticky Nav** | Logo · Services · Case Studies · Products · About · Blog · Language switcher (CZ/EN/DE) · "Nezávazná konzultace" CTA button (accent color) |
-| 2 | **Hero** | Availability badge ("Volné kapacity od [date]") · H1: "Vývojové týmy, které opravdu dodají váš software" · Subheadline (services + 15+ years + CZ/international) · Two CTAs: Primary "Získat nabídku do 24 h →" + Secondary "Prohlédnout reference" · Trust micro-copy: "Bez závazku · NDA standardně · Reakce do 4 hodin" |
-| 3 | **Trust Bar** | 4 animated counters: 15+ let zkušeností · 120+ spokojených klientů · 2M+ uživatelů produktů · 14 dní průměrný onboarding. Client logo strip below: Carvago, Finshape, Košík.cz, Nano Energies, Inventi, Summit |
-| 4 | **4-Path Service Navigator** | 4 cards (grid 2×2 on desktop, stack on mobile): Agile Team · Body Shopping · Custom Dev · Weby. Each card: icon + name + 2-line description + key terms (timeline/team size) + CTA arrow link |
-| 5 | **Featured Case Study** | Full-width highlight card. Finshape: Java + React · −62% load time · +38% login conversion · 14-day onboarding. "Přečíst celou studii →" link |
-| 6 | **Case Study Grid** | Filter tabs: Vše / FinTech / E-commerce / SaaS / Energetika. 4–6 project cards: Carvago, Košík.cz, Nano Energies, Protank + 1 placeholder. Each card: client logo + tag + headline + 1 metric badge |
-| 7 | **Social Proof / Testimonials** | 3 testimonials with: real name + title + company logo + star rating + year. Carvago / Finshape / UPC (or Košík) |
-| 8 | **Mid-page CTA strip** | "Začneme společně do 14 dní?" + "Rezervovat 30min konzultaci →" (opens Cal.com inline embed) |
-| 9 | **Tech Stack section** | Visual tag cloud or icon grid: PHP · .NET · Java · React · Node.js · TypeScript · Angular · Python + cloud badges (AWS, Azure) + AI/LLM row (LangChain, RAG, Semantic Kernel) |
-| 10 | **Own Products teaser** | 3–4 product cards with logo + 1-line pitch + "Vyzkoušet zdarma" link. CTA: "Zobrazit všechny produkty →" |
-| 11 | **About / Team teaser** | 3-column: HQ Praha · Znojmo hub · Sofia nearshore. Photo(s) if available. "Poznat tým →" link |
-| 12 | **Footer** | 4 columns: Services links · Products links · Company (About, Blog, Careers) · Contact (address, phone, email, LinkedIn). Bottom bar: legal links + language switcher + Clutch badge |
+| # | Section | Prototype state | Production target |
+|---|---------|----------------|-------------------|
+| 1 | **Sticky Nav** | `[BUILT]` Logo · Services ▾ (JS dropdown, 220ms hide delay) · Case Studies · Products · 🌴 Summer Deal · About · Blog · Language switcher (EN/CZ/DE, decorative) · "Let's Talk" CTA | "Nezávazná konzultace" CTA; CZ default; language switcher functional; Services dropdown marks Agile as "Nejpopulárnější", AI Automation as "Novinka" |
+| 2 | **Hero** | `[BUILT]` Eyebrow badge "12+ years building software in CEE" · H1: "We build software that grows your business" · Subline about agile teams / AI automation / European clients · CTAs: "Start a Project →" + "See Case Studies" · Jan Procházka BDM card embedded in hero | H1: "Vývojové týmy, které opravdu dodají váš software" · Availability badge "🟢 Volné kapacity od [date]" (DC-11) · CTAs: "Získat nabídku do 24 h →" + "Prohlédnout reference" · Trust micro-copy: "Bez závazku · NDA standardně · Reakce do 4 hodin" |
+| 3 | **Scrolling Logo Strip** | `[BUILT]` CSS marquee with: Carvago, Creditas, Alza, GitHub, Rohlik, Škoda, KB, Metronom | Replace with real portfolio clients: Carvago, Finshape, Košík.cz, Nano Energies, Inventi, Summit |
+| 4 | **Stats counters** | `[BUILT]` 4 animated JS counters: 150 projects · 40 engineers · 12 years · 98% NPS. Appear in a dedicated section below logo strip | Update values to: 15+ let · 120+ klientů · 2M+ uživatelů produktů · 14 dní onboarding. Move directly below logo strip. Add `<noscript>` fallback (currently absent) |
+| 5 | **4-Path Service Navigator** | `[BUILT]` 4 cards: Agile Team · Body Shopping · Custom App Development · **AI Automation** (not Weby) | Swap AI Automation for Weby in the 4th slot, or use a 5-card layout if Websites is also a significant revenue line. AI Automation should have its own nav entry regardless |
+| 6 | **Featured Case Study** | `[NOT BUILT]` Does not exist in prototype | Add full-width highlight card: Finshape — Java + React · −62% load time · +38% login conversion · 14-day onboarding |
+| 7 | **Case Study Grid** | `[BUILT]` Filter tabs: All · Fintech · E-commerce · SaaS · AI · IoT. Shows 6 of 15 cases with pagination. Cases are placeholder (Rohlik, KB, FireAlarm) | Filter tabs: Vše / FinTech / E-commerce / SaaS / Energetika. Replace placeholder clients with real portfolio |
+| 8 | **Testimonials** | `[BUILT]` 6 testimonials in a 2-slide carousel, 6s auto-play interval. No company logos — only generated avatars. No star ratings. Placeholder clients | Reduce to 3 real testimonials with real name + title + company logo + star rating + year. Carousel interval: 4s (spec DC-08). |
+| 9 | **Mid-page CTA strip** | `[BUILT]` "Not sure which model fits?" + "Book 30-min call →" + "Get cost estimate" — both navigate to contact page, no Cal.com embed | Add Cal.com inline embed to the "Book 30-min call" CTA (DC-04) |
+| 10 | **Tech Stack carousel** | `[BUILT]` Horizontal scroll carousel with devicon SVG logos: React/Next.js, TypeScript, Node.js, Python, Java/Spring, Go, Docker, K8s, AWS, GCP, PostgreSQL, MongoDB, Redis, Flutter, iOS, Android | Add PHP, .NET, Angular. Add AI/LLM row: LangChain, Semantic Kernel, OpenAI, RAG. Remove or keep Go/Flutter/mobile depending on service focus |
+| 11 | **Products teaser** | `[BUILT]` 3 cards: FireAlarm.cloud · EvHard · "+ 9 more products" placeholder. No "Vyzkoušet zdarma" links | Add "Vyzkoušet zdarma" / "Zjistit více" links. CTA: "Zobrazit všechny produkty →" |
+| 12 | **About teaser** | `[BUILT]` 2-column: text (with Praha/Znojmo/Sofia office badge tags) + photo (placeholder Picsum) | Add 3-column layout: HQ Praha · Znojmo Hub · Sofia nearshore. Use real Marešova vila photo |
+| 13 | **Footer** | `[BUILT]` 4 columns: brand+tagline · Services · Company · Contact. Social icons: LinkedIn, GitHub, X/Twitter, Instagram. Bottom bar: copyright + "Clutch 4.9★ · ISO 27001 · GDPR" | Replace Instagram with Facebook. Add Products links column. Add language switcher in footer bottom bar. Add live Clutch badge embed |
 
 ---
 
@@ -63,15 +86,18 @@ Converts enterprise CTOs and product managers evaluating a nearshore development
 
 ### Content Sections
 
-- **Hero:** H1 "Dedikovaný agile tým — váš vlastní vývojový oddíl" · USPs: senior-only, 3-week onboarding, T&M or fixed price · CTA: "Sestavit tým →" (Cal.com)
-- **Pain → Solution block:** 3 pain cards (slow hiring / agency churn / no ownership) each with eValue solution
-- **How it works:** 3-step timeline — Discovery call → Team proposal (72h) → Sprint 1 starts
-- **Team composition** visual: roles available (FE, BE, PM, QA, DevOps, AI eng.)
-- **Pricing transparency block:** "Týmy od €X/den blended rate" + table comparing T&M vs Fixed Price
-- **Case study:** Finshape deep-dive (or Carvago) — the 14-day onboarding story
-- **Testimonials:** 2 enterprise-specific quotes
-- **FAQ accordion:** 8–10 questions (NDA, IP, timezone, languages, rate range, team size min/max)
-- **Conversion close:** Cal.com 30-min booking embed
+| Section | Status | Notes |
+|---------|--------|-------|
+| **Hero** H1 "Dedikovaný agile tým — váš vlastní vývojový oddíl" | `[BUILT — EN]` Prototype: "Your dedicated engineering squad, ready in 2 weeks" · CTAs: "Start now →" + "Download service brief" | Czech copy + "Sestavit tým →" CTA for production |
+| **Pain → Solution block** 3 pain cards (slow hiring / agency churn / no ownership) | `[BUILT]` Implemented ✓ | — |
+| **How it works** 3-step timeline | `[NOT BUILT]` Missing from prototype | Discovery call → Team proposal (72h) → Sprint 1 starts |
+| **Team composition visual** roles available (FE, BE, PM, QA, DevOps, AI eng.) | `[PARTIALLY BUILT]` A 10-person "Meet the team" grid exists — but spec places team grid on About page, not Agile | Decide: keep here as "available roles" showcase, or move to About |
+| **Pricing transparency block** day rates + T&M vs Fixed Price table | `[BUILT — DIFFERENT]` Prototype has monthly package tiers (€10k/mo · €18k/mo · Custom), not daily blended rates or T&M table | Add daily rate anchors alongside monthly packages. Add T&M vs Fixed Price comparison |
+| **Case study** Finshape or Carvago deep-dive | `[NOT BUILT]` | Add Finshape: −62% load time · +38% login · 14-day onboarding |
+| **Testimonials** 2 enterprise-specific quotes | `[NOT BUILT]` | — |
+| **FAQ accordion** 8–10 questions | `[NOT BUILT]` | NDA, IP, timezone, languages, rate range, team size |
+| **Conversion close** Cal.com 30-min embed | `[NOT BUILT]` Placeholder div only | Wire live Cal.com iframe |
+| **Agile delivery guarantee** | `[BUILT — UNDOCUMENTED]` "If we miss sprint goals twice in a row, you get the next sprint free." | Keep — strong conversion signal for CTOs burned by waterfall agencies |
 
 ---
 
@@ -82,14 +108,17 @@ Converts HR managers and technical leads who need 1–3 senior specialists fast.
 
 ### Content Sections
 
-- **Hero:** H1 "Senior vývojáři do vašeho týmu — do 14 dní" · Key proof: 14-day delivery SLA · CTA: "Potřebuji specialisty →"
-- **Stack filter:** clickable role/tech tags — React / Java / .NET / PHP / Node.js / Python / DevOps / QA / PM / AI Eng.
-- **"How fast?" block:** 3-step: Role brief → CV shortlist (48h) → Trial week
-- **Pricing block:** day-rate ranges by seniority tier (Junior / Mid / Senior / Lead)
-- **Client logos + quote:** Finshape quote about acquiring Angular + Java devs
-- **Risk-free offer:** "Vyzkoušejte 1 vývojáře 2 týdny — bez rizika"
-- **FAQ:** timezone, English level, notice period, trial extension, IP ownership
-- **CTA close:** form with fields — Role, Stack, Start date, Team size
+| Section | Status | Notes |
+|---------|--------|-------|
+| **Hero** H1 "Senior vývojáři do vašeho týmu — do 14 dní" | `[BUILT — EN]` Prototype: "Senior engineers embedded in your team within 72 hours" · CTAs: "Find my engineer →" + "Browse engineer profiles" | Note: prototype says 72 hours, spec says 14 days — confirm which SLA is accurate |
+| **Stack filter** React / Java / .NET / PHP / Node.js / Python / DevOps / QA / PM / AI Eng. | `[PARTIALLY BUILT]` Prototype has: All stacks · React/Next.js · Python · Java/Spring · DevOps/K8s · Mobile (iOS/Android) | Add: .NET, PHP, QA, PM, AI Eng. filter tabs |
+| **Engineer profile cards** (3 named profiles: Jan K., Martin P., Tomáš N.) | `[BUILT — UNDOCUMENTED]` Real-looking anonymized cards with tech tags, availability, and "Request profile" button | Not in original spec — keep as a strong conversion element |
+| **"How fast?" block** 3-step process | `[NOT BUILT]` | Role brief → CV shortlist (48h) → Trial week |
+| **Pricing block** day-rate ranges by seniority | `[NOT BUILT]` | Junior / Mid / Senior / Lead tiers |
+| **Client logos + Finshape quote** | `[NOT BUILT]` | — |
+| **Risk-free offer** "Vyzkoušejte 1 vývojáře 2 týdny" | `[NOT BUILT]` | — |
+| **FAQ** | `[NOT BUILT]` | timezone, English level, notice period, trial extension, IP ownership |
+| **Get matched CTA + Jan Procházka card** | `[BUILT]` Side-by-side flex row ✓ | — |
 
 ---
 
@@ -391,10 +420,18 @@ Warm amber-tinted strip between the carousel and the footer. Captures emails fro
 ## DYNAMIC COMPONENTS SPECIFICATION
 
 ### DC-01 — Animated Trust Counters
-**Location:** Homepage Hero, About page
-**Behaviour:** On scroll-into-view, count up from 0 to target value over 1.5s using easing. Values: `15+`, `120+`, `2 000 000+`, `14`.
-**Tech:** Vanilla JS IntersectionObserver + requestAnimationFrame. Fix the existing broken implementation — ensure DOM is fully loaded before counter init.
-**SEO note:** Numbers must also exist as static text in `<noscript>` fallback.
+**Location:** Homepage (dedicated stats section below logo strip), About page
+**Status:** `[BUILT]` — but values differ from production target
+**Behaviour:** On scroll-into-view, count up from 0 to target value over 1.5s using easing. IntersectionObserver + requestAnimationFrame.
+
+| | Prototype (current) | Production target |
+|-|--------------------|--------------------|
+| Counter 1 | 150 Projects delivered | 15+ let zkušeností |
+| Counter 2 | 40 Senior engineers | 120+ spokojených klientů |
+| Counter 3 | 12 Years of experience | 2 000 000+ uživatelů produktů |
+| Counter 4 | 98% client satisfaction (NPS) | 14 dní průměrný onboarding |
+
+**SEO note:** Numbers must also exist as static text in `<noscript>` fallback. `[NOT BUILT]` — no `<noscript>` tags exist in the prototype.
 
 ---
 
@@ -407,23 +444,34 @@ Warm amber-tinted strip between the carousel and the footer. Captures emails fro
 
 ### DC-03 — Case Study Filter Tabs
 **Location:** Homepage (preview grid), `/case-studies/` index
-**Behaviour:** Client-side JS filter. Tab click → fade transition, grid re-renders cards matching selected category. No page reload. URL hash update: `/case-studies/#fintech`
-**Categories:** Vše / FinTech / E-commerce / SaaS / Energetika / Nearshore
-**Tech:** Vanilla JS or lightweight Alpine.js — no heavy framework needed
+**Status:** `[BUILT — PARTIAL]` Client-side filtering implemented ✓. Pagination (15 cases, 6 per page) implemented ✓ (undocumented). URL hash update `[NOT BUILT]` — filter clicks do not update `window.location.hash`.
+**Behaviour:** Client-side JS filter. Tab click → re-renders cards matching category. No page reload. **Add for production:** URL hash update (`/case-studies/#fintech`) so filtered views are shareable.
+**Categories (prototype):** All · Fintech · E-commerce · SaaS · AI · IoT · Healthcare · Manufacturing
+**Categories (production target):** Vše / FinTech / E-commerce / SaaS / Energetika / Nearshore
+**Tech:** Vanilla JS (implemented)
 
 ---
 
 ### DC-04 — Cal.com Booking Widget
 **Location:** All service pages (inline embed), Homepage mid-page strip, `/kontakt/`
-**Behaviour:** Inline iframe embed of Cal.com 30-min slot. Matches site colors via Cal.com theme API (dark/light toggle support). On mobile: opens as bottom sheet.
+**Status:** `[NOT BUILT]` All Cal.com placements are placeholder divs with `calendar_month` icon and the text "In production this loads the Cal.com embed." No actual iframe exists anywhere in the prototype.
+**Behaviour (production):** Inline iframe embed of Cal.com 30-min slot. Matches site colors via Cal.com theme API (dark/light toggle support). On mobile: opens as bottom sheet.
 **Fallback:** If Cal.com unavailable, shows a simple "send us email" link.
+**Action required:** Confirm Cal.com account, get embed script, replace all placeholder divs.
 
 ---
 
-### DC-05 — Crisp Live Chat
+### DC-05 — Live Chat Widget
 **Location:** All pages (bottom-right corner)
-**Behaviour:** During business hours (Mon–Fri 9:00–18:00 CET): live agent. After hours: AI bot trained on services + FAQ + case studies. Chat icon shows availability status indicator (green dot = live, grey = bot).
-**Config:** Crisp JavaScript snippet in `<head>`. Business hours set in Crisp dashboard.
+**Status:** `[BUILT — CUSTOM]` Prototype implements a fully custom bespoke chat widget, NOT Crisp. The custom widget includes: "Jíťa" named avatar, quick-reply chip buttons ("Start a project / Hire a developer / AI automation / Pricing"), keyword-matched bot responses, `addChatBubble()` / `addTyping()` JS engine. It intentionally showcases eValue's own AI capability.
+
+**Production decision required:** Keep the custom widget (demonstrates AI competence, brand-consistent) or replace with Crisp (live agent handoff, real business hours logic, CRM integration).
+
+**If Crisp (production):** Crisp JavaScript snippet in `<head>`. During business hours (Mon–Fri 9:00–18:00 CET): live agent. After hours: AI bot trained on services + FAQ + case studies. Chat icon shows availability status indicator (green dot = live, grey = bot).
+
+**If custom widget:** Wire keyword responses to a real backend (LangChain RAG over eValue docs). Add live-agent handoff when keyword = "speak to human".
+
+**Auto-open after 5 minutes:** `[BUILT]` — see DC-14.
 
 ---
 
@@ -436,29 +484,57 @@ Warm amber-tinted strip between the carousel and the footer. Captures emails fro
 
 ### DC-07 — Nearshore Cost Calculator
 **Location:** Standalone section on `/agile-team/` + `/blog/` lead magnet
+**Status:** `[NOT BUILT]` Not implemented anywhere in the prototype. Confirmed as must-have (see Competitor Features section).
 **Behaviour:** Multi-step form — Step 1: Team size (slider 1–20). Step 2: Role mix (checkboxes). Step 3: Duration (dropdown). Output: monthly cost range (€X–€Y) vs estimated in-house cost. "Get exact quote" → email capture form.
-**Tech:** React component or vanilla JS. No backend required — calculation is client-side.
+**Why this is the highest-priority missing feature:** Boldare's estimator is their #1 lead magnet. A visitor who self-qualifies via a calculator is already invested before they hit the contact form — they know the rough budget. Conversion rates on pre-qualified leads from calculators are 3–5× higher than cold contact form submissions.
+**Tech:** Vanilla JS. No backend required — all calculation is client-side with hardcoded rate ranges.
 
 ---
 
 ### DC-08 — Testimonial Carousel
 **Location:** Homepage, service pages
-**Behaviour:** Auto-play (4s interval), pause on hover. 3 visible slides. Each slide: quote text + author name + company + logo + star rating. Touch/swipe on mobile.
-**Tech:** CSS transitions + minimal JS (no jQuery). Or Swiper.js if already in bundle.
+**Status:** `[BUILT — VALUES DIFFER]`
+**Behaviour:** Auto-play, pause on hover. Each slide: quote text + author name + company.
+**Prototype vs. target:**
+
+| | Prototype | Production target |
+|-|-----------|-------------------|
+| Auto-play interval | 6 seconds (`setInterval 6000`) | 4 seconds |
+| Slides | 2 slides × 3 testimonials per slide (6 total) | 3 testimonials, 1 per slide |
+| Company logos | Generated avatars (ui-avatars.com) | Real company logos (Carvago, Finshape, UPC) |
+| Star ratings | Absent | Include + Schema `AggregateRating` markup |
+| Year | Absent | Include (e.g. "— CTO, Carvago · 2024") |
+| Clients | Rohlik, Alza, Metronom, KB, Bonami, Woltair (placeholder) | Carvago / Finshape / UPC (real testimonials) |
+
+**Tech:** CSS transitions + minimal JS (no jQuery). Touch/swipe on mobile.
 
 ---
 
 ### DC-09 — Blog / Article Engine
 **Location:** `/blog/` + `/blog/[slug]/`
-**Behaviour:** Static-generated (SSG) for SEO — each article is a pre-rendered HTML page. Tags + category filtering client-side. Reading progress bar on article pages. Estimated read time calculated from word count. "Related articles" block (manual tag matching). Newsletter CTA inject after paragraph 3.
-**Tech:** Can be Next.js SSG, Astro, or even a CMS-backed system (Sanity, Contentful, or simple Markdown files). Must output clean HTML for SEO.
+**Status:** `[BUILT — PROTOTYPE ONLY]` Fully functional in the prototype as a client-side JS engine. Not production-ready for SEO (content is JS-rendered, not static HTML).
+**What's built:**
+- `BLOG_CARDS` array (9 articles in English, placeholder content)
+- Category filter tabs: All · AI & Automation · Engineering · Product · Company
+- Pagination: 6 posts per page with `blogGoTo()` engine `[UNDOCUMENTED]`
+- Blog detail page: table of contents sidebar, share buttons (LinkedIn/Twitter/copy-link) `[UNDOCUMENTED]`, reading progress bar ✓, author bio block `[UNDOCUMENTED]`, related posts grid `[UNDOCUMENTED]`
+- `showPage()` monkey-patched by blog engine (fragile chain — fix before production)
+
+**What's missing:**
+- Newsletter CTA inject after paragraph 3 `[NOT BUILT]`
+- Read time calculated from word count (currently hardcoded in data object) `[PARTIAL]`
+- Beehiiv newsletter sidebar widget `[NOT BUILT]`
+
+**Production target:** SSG via Next.js or Astro — each article pre-rendered to static HTML. 6 Czech articles at launch (see content plan). Blog sidebar: latest article + Beehiiv newsletter sign-up.
+**Tech:** Must output clean HTML for SEO. JS-rendered blog = delayed indexing = lost organic traffic.
 
 ---
 
 ### DC-10 — Language Switcher
 **Location:** Sticky nav (all pages)
-**Behaviour:** Dropdown: 🇨🇿 CZ / 🇬🇧 EN / 🇩🇪 DE / 🇧🇬 BG. Switching language stays on the equivalent translated page (e.g. `/agile-team/` → `/en/agile-team/`). Active language highlighted. Sets `lang` attribute on `<html>`.
-**SEO:** Each language version has its own canonical + hreflang set pointing to all 4 variants.
+**Status:** `[BUILT — DECORATIVE ONLY]` Three language buttons (EN/CZ/DE) are rendered in the nav but have no click handlers. Clicking does nothing. `lang="en"` is hardcoded on `<html>`. Purely visual.
+**Production behaviour:** Dropdown: 🇨🇿 CZ / 🇬🇧 EN / 🇩🇪 DE / 🇧🇬 BG. Switching language routes to the equivalent translated page (`/agile-team/` → `/en/agile-team/`). Active language highlighted. Sets `lang` attribute on `<html>`.
+**SEO:** Each language version needs its own canonical + hreflang set pointing to all 4 variants. Without this, multi-language pages get penalised as duplicate content.
 
 ---
 
@@ -707,7 +783,46 @@ Hardcode all content in HTML/JSX files. Fine for a 5-page brochure site that nev
 
 ---
 
+## UNDOCUMENTED FEATURES IN PROTOTYPE
+
+These components exist in `evalue-prototype.html` but were not in the original spec. Each needs a decision: keep, improve, or remove before production.
+
+| Feature | Location | Decision needed |
+|---------|----------|----------------|
+| **Cursor glow** — `#cursor-glow` div that follows mouse with radial gradient | Global (all pages) | Keep as premium feel signal, or remove for performance |
+| **Card tilt** — `.tilt` class 3D perspective transform on hover | Service cards, case cards | Keep (depth illusion) or remove (accessibility — can cause vestibular issues) |
+| **New client discount popup** `#promo-card` — "🎁 New client offer — Save 10% on your first project", appears after 2 min or 30s on pricing section, has session-storage dismiss | Global | **Important:** This is undocumented marketing copy that makes a public discount commitment. Confirm: (a) is 10% accurate? (b) should this popup appear across all service pages, or only on Pricing/Websites? (c) add to DC-15 as a second promo channel |
+| **Case studies pagination** — 15 cases in `ALL_CASES` array, 6 per page, `casesGoTo()` with ellipsis page buttons | Case Studies page | Extend spec DC-03 to document pagination. Update case data with real portfolio |
+| **Case study modal** — `#case-modal-overlay` with hero image, 3-metric strip, challenge/solution text, CTAs | All pages with case cards | **Critical mismatch with spec.** Spec calls for individual slug pages (`/case-studies/finshape/`). Modal is fast/lightweight but not SEO-indexable. Decision: keep modal as a preview + add "Read full case study" link to slug page, or go modal-only and use Server-Side Rendering for meta tags |
+| **"Similar cases" strip** — `#similar-cases-section`, JS renders tag-matched cases after a case modal is opened | Case Studies page | Good UX. Document in DC-03. |
+| **Blog table of contents** — `.blog-toc` sidebar widget auto-generated from article H2s | Blog detail page | Keep — improves long-form article UX |
+| **Blog share buttons** — `.blog-share` with LinkedIn/Twitter/copy-link | Blog detail page | Keep. Add Facebook share for CZ market |
+| **Blog author bio** — `.blog-author` block below article body | Blog detail page | Keep. Wire to real author data |
+| **Blog related posts grid** — 3 tag-matched articles below author bio | Blog detail page | Keep. Wire to real article data |
+| **`showPage()` monkey-patch chain** — cases pagination wraps `showPage` once, blog engine wraps it again | Global JS | **Technical debt.** Before production, consolidate into a single router function. The double-wrap is fragile and makes debugging difficult |
+| **Web Audio API ocean sound** — synthesized with `AudioContext`, `createBuffer`, `createBiquadFilter`, LFO oscillator; no audio file | Summer/Deals page | Keep (impressive, no HTTP cost, no audio CDN needed). Document in DC-13 |
+| **Products page ARR figures** — "€120k ARR", "€80k ARR" on product cards | Products page | **Decision required:** Are these real figures? Displaying revenue publicly is unusual. If real, confirm. If placeholder, remove before launch |
+| **Footer copyright year inconsistency** — Homepage footer: © 2024, all inner-page footers: © 2025 | Footer | Fix to © 2026 across all pages before launch |
+| **Blog `showPage()` double-wrap** | Global JS | Fix — see monkey-patch chain above |
+
+---
+
 ## CHANGELOG
+
+### v2.1 (June 2026) — Full prototype audit and reconciliation
+
+Compared `evalue-prototype.html` line-by-line against the v2.0 spec. 84 gaps identified (28 undocumented prototype features, 56 spec↔prototype mismatches). Major updates in this version:
+- Added "PROTOTYPE vs. PRODUCTION" distinction table at top of document
+- Updated all homepage section descriptions with `[BUILT]` / `[NOT BUILT]` / `[BUILT — DIFFERENT]` status
+- Updated Agile Team and Body Shopping page specs with table format showing built vs. target
+- Fixed DC-01 counter values table (prototype vs. production)
+- Updated DC-05 to reflect custom bespoke chat widget (not Crisp), with production decision required
+- Updated DC-08 with exact testimonial mismatch details (6s interval, placeholder clients, no logos)
+- Added `[NOT BUILT]` status to DC-04 (Cal.com), DC-07 (calculator), DC-10 (language switcher)
+- Added `[BUILT — PARTIAL]` status to DC-03, DC-09 (blog engine)
+- Added full "Undocumented Features" section documenting 14 prototype components not in prior spec
+- Added "Production Readiness Checklist" with 20 items across content, technical, and decisions
+- Expanded Open Questions from 10 to 13
 
 ### v2.0 (June 2026) — Prototype iteration updates
 
@@ -742,18 +857,56 @@ Hardcode all content in HTML/JSX files. Fine for a 5-page brochure site that nev
 
 ---
 
+## PRODUCTION READINESS CHECKLIST
+
+Before going live, every item below must be resolved:
+
+### Content & Copy
+- [ ] Translate all English copy to Czech (default language)
+- [ ] Replace all placeholder clients (Rohlik, Creditas, etc.) with real portfolio clients
+- [ ] Replace all placeholder testimonials with real named quotes from Carvago, Finshape, UPC
+- [ ] Update counter values: 15+ years · 120+ clients · 2M+ users · 14-day onboarding
+- [ ] Write 6 launch blog articles in Czech (content plan above)
+- [ ] Fix copyright year to © 2026 on all pages
+- [ ] Confirm "Usually replies in 40m" SLA is accurate — this is a public commitment
+- [ ] Confirm whether displaying ARR figures on Products page is intentional
+
+### Technical
+- [ ] Wire Cal.com iframe embeds on all service pages + contact page (replace placeholder divs)
+- [ ] Add `<noscript>` fallback for all animated counters
+- [ ] Implement URL hash update on case study filter clicks
+- [ ] Add `hreflang` tags for CZ/EN/DE on all pages
+- [ ] Fix language switcher — add real routing (currently decorative)
+- [ ] Consolidate `showPage()` monkey-patch chain into a single router
+- [ ] Fix border-color reset on invalid promo code (use `var(--border)` not empty string)
+- [ ] Decide: individual case study slug pages (SEO) vs modal-only (prototype). Recommend: both — modal as preview, slug page as full article
+- [ ] Add individual case study slug pages with full 7-section layout for SEO
+- [ ] Switch blog from client-side JS-rendered to SSG (Next.js/Astro) for SEO
+
+### Decisions Required
+- [ ] Custom chat widget vs. Crisp (affects CRM integration and live agent handoff)
+- [ ] Confirm 10% new client discount popup — is this the right offer? Which pages should it appear on?
+- [ ] Language scope at launch: CZ only or CZ+EN?
+- [ ] Phase 1 scope: full site or homepage + 4 service pages first?
+- [ ] Promo codes configurable via CMS or hardcoded (current: hardcoded in JS `VALID_PROMOS` object)
+
+---
+
 ## OPEN QUESTIONS FOR SERHII TO CONFIRM
 
 1. **Dark or light theme?** Prototype is dark — keep or offer a light mode toggle?
-2. **CMS needed?** Should non-devs update blog posts, case studies, and availability badge? Or dev-only updates acceptable?
+2. **CMS needed?** Should non-devs update blog posts, case studies, and availability badge?
 3. **Languages at launch:** CZ only, CZ+EN, or CZ+EN+DE+BG?
-4. **Real team photos** available for About page and hero humanisation?
+4. **Real team photos** available for About page, hero humanisation, and BDM card (Jan Procházka)?
 5. **Cal.com / booking tool** — existing account or start fresh?
 6. **Which 6 case studies to write first?** Finshape + Carvago confirmed — which 4 others?
 7. **Framework preference:** Next.js / Astro / plain HTML+JS?
-8. **Phase 1 scope:** Build everything at once, or ship homepage + 4 service pages first, then blog/products/deals?
-9. **Deals page promo codes:** Are `SUMMER26 / AUTUMN26 / AIAUDIT26` the final codes, or should they be configurable via CMS/env vars in production?
-10. **Jan Procházka BDM card:** Confirm "Usually replies in 40m" is accurate — this is a public commitment on a customer-facing page.
+8. **Phase 1 scope:** Full site or homepage + 4 service pages first?
+9. **Promo codes:** `SUMMER26 / AUTUMN26 / AIAUDIT26` final or CMS-configurable?
+10. **Custom chat vs. Crisp:** Keep the bespoke widget (showcases AI) or switch to Crisp (live agent)?
+11. **10% new client popup:** Confirm the discount is real and intentional.
+12. **ARR figures on Products page:** Are the €120k / €80k ARR figures real and public-ready?
+13. **Case study pattern:** Modal preview + slug page, or modal-only?
 
 ---
 
